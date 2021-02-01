@@ -1,42 +1,30 @@
 import React, { useEffect } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Route, Switch } from "react-router-dom";
+import { checkUserSession } from "./redux/User/user.actions";
 
-import "./default.scss";
+// hoc
+import WithAuth from "./hoc/withAuth";
 
+//layouts
 import MainLayout from "./layouts/MainLayout";
 import HomepageLayout from "./layouts/HomepageLayout";
 
+//pages
 import Homepage from "./pages/Homepage";
 import Registeration from "./pages/Registeration";
 import Login from "./pages/Login";
-import { auth, handleUserProfile } from "./firebase/utils";
 import Recovery from "./pages/Recovery";
-import { connect } from "react-redux";
-import { setCurrentUser } from "./redux/User/user.actions";
 import Dashboard from "./pages/Dashboard";
-import WithAuth from "./hoc/withAuth";
+
+import "./default.scss";
 
 const App = (props) => {
-  const { setCurrentUser, currentUser } = props;
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const authListner = auth.onAuthStateChanged(async (userAuth) => {
-      if (userAuth) {
-        const userRef = await handleUserProfile(userAuth);
-        userRef.onSnapshot((snapshot) => {
-          setCurrentUser({
-            id: snapshot.id,
-            ...snapshot.data(),
-          });
-        });
-      }
-
-      setCurrentUser(userAuth);
-    });
-    return () => {
-      authListner();
-    };
-  });
+    dispatch(checkUserSession());
+  }, []);
 
   return (
     <div className="App">
@@ -53,27 +41,19 @@ const App = (props) => {
 
         <Route
           path="/registeration"
-          render={() =>
-            currentUser ? (
-              <Redirect to="/" />
-            ) : (
-              <MainLayout>
-                <Registeration />
-              </MainLayout>
-            )
-          }
+          render={() => (
+            <MainLayout>
+              <Registeration />
+            </MainLayout>
+          )}
         />
         <Route
           path="/login"
-          render={() =>
-            currentUser ? (
-              <Redirect to="/" />
-            ) : (
-              <MainLayout>
-                <Login />
-              </MainLayout>
-            )
-          }
+          render={() => (
+            <MainLayout>
+              <Login />
+            </MainLayout>
+          )}
         />
         <Route
           path="/recovery"
@@ -98,12 +78,4 @@ const App = (props) => {
   );
 };
 
-const mapStateToProps = ({ user }) => ({
-  currentUser: user.currentUser,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

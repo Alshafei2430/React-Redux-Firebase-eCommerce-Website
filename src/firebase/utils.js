@@ -7,13 +7,11 @@ firebase.initializeApp(firebaseConfig);
 
 export const firestore = firebase.firestore();
 export const auth = firebase.auth();
-const GoogleProvider = new firebase.auth.GoogleAuthProvider();
+export const GoogleProvider = new firebase.auth.GoogleAuthProvider();
 
 GoogleProvider.setCustomParameters({ prompt: "select_account" });
 
-export const signInWithGoogle = () => auth.signInWithPopup(GoogleProvider);
-
-export const handleUserProfile = async (userAuth, addationalData) => {
+export const handleUserProfile = async ({ userAuth, addationalData }) => {
   if (!userAuth) return;
   const { uid } = userAuth;
   const userRef = firestore.doc(`users/${uid}`);
@@ -33,4 +31,13 @@ export const handleUserProfile = async (userAuth, addationalData) => {
     }
   }
   return userRef;
+};
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = auth.onAuthStateChanged((userAuth) => {
+      unsubscribe();
+      resolve(userAuth);
+    }, reject);
+  });
 };

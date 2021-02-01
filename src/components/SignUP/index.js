@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { auth, handleUserProfile } from "../../firebase/utils";
+import { resetAuthForms, signUpUser } from "../../redux/User/user.actions";
 import AuthWrapper from "../AuthWrapper";
 import Button from "../Form/Button";
 import FormInput from "../Form/FormInput";
 import "./styles.scss";
 
+const mapState = ({ user }) => ({
+  signUpSuccess: user.signUpSuccess,
+  signUpError: user.signUpErrors,
+});
+
 const Signup = (props) => {
+  const { signUpError, signUpSuccess } = useSelector(mapState);
+  const dispatch = useDispatch();
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,7 +23,6 @@ const Signup = (props) => {
   const configAuthWrapper = {
     headline: "Sign UP",
   };
-
   const resetForm = () => {
     setDisplayName("");
     setEmail("");
@@ -23,27 +30,22 @@ const Signup = (props) => {
     setConfirmPassword("");
   };
 
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
+  useEffect(() => {
+    if (Array.isArray(signUpError) && signUpError.length > 0)
+      setErrors(signUpError);
+  }, [signUpError]);
 
-    if (password !== confirmPassword) {
-      const err = ["Password doesn't match"];
-      setErrors(err);
-      return;
-    }
-    try {
-      const { user } = await auth.createUserWithEmailAndPassword(
-        email,
-        password
-      );
-
-      await handleUserProfile(user, { displayName });
+  useEffect(() => {
+    if (signUpSuccess) {
       resetForm();
+      dispatch(resetAuthForms());
       props.history.push("/");
-    } catch (err) {
-      const { message } = err;
-      setErrors([message]);
     }
+  }, [signUpSuccess]);
+
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    dispatch(signUpUser({ email, password, confirmPassword, displayName }));
   };
 
   return (

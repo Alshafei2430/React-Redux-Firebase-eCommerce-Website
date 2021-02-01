@@ -1,12 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  resetAuthForms,
+  signInUser,
+  signInWithGoogle,
+} from "../../redux/User/user.actions";
 import { Link, withRouter } from "react-router-dom";
-import { auth, signInWithGoogle } from "../../firebase/utils";
 import AuthWrapper from "../AuthWrapper";
 import Button from "../Form/Button";
 import FormInput from "../Form/FormInput";
 import "./styles.scss";
 
+const mapState = ({ user }) => ({
+  currentUser: user.currentUser,
+});
+
 const SignIn = (props) => {
+  const { currentUser } = useSelector(mapState);
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
@@ -14,17 +25,26 @@ const SignIn = (props) => {
     setEmail("");
     setPassword("");
   };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
 
-    try {
-      await auth.signInWithEmailAndPassword(email, password);
+  useEffect(() => {
+    if (currentUser) {
       resetForm();
       props.history.push("/");
-    } catch (err) {
-      const { message } = err;
-      setErrors([message]);
     }
+  }, [currentUser]);
+
+  // useEffect(() => {
+  //   if (Array.isArray(signInErrors) && signInErrors.length > 0)
+  //     setErrors([signInErrors]);
+  // }, [signInErrors]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(signInUser({ email, password }));
+  };
+
+  const handleGoogleSignIn = () => {
+    dispatch(signInWithGoogle());
   };
 
   const configAuthWrapper = {
@@ -59,7 +79,7 @@ const SignIn = (props) => {
 
           <div className="socialSignIn">
             <div className="row">
-              <Button onClick={signInWithGoogle}>Sign in With Google</Button>
+              <Button onClick={handleGoogleSignIn}>Sign in With Google</Button>
             </div>
           </div>
           <div className="links">
