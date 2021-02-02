@@ -12,13 +12,14 @@ import "./styles.scss";
 
 const mapState = ({ user }) => ({
   currentUser: user.currentUser,
+  userErr: user.userErr,
 });
 
 const SignIn = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const { currentUser } = useSelector(mapState);
+  const { currentUser, userErr } = useSelector(mapState);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
@@ -33,6 +34,10 @@ const SignIn = (props) => {
       history.push("/");
     }
   }, [currentUser]);
+
+  useEffect(() => {
+    if (Array.isArray(userErr) && userErr.length > 0) setErrors(userErr);
+  }, [userErr]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
