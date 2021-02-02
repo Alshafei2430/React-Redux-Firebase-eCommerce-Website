@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  resetAuthForms,
-  signInUser,
-  signInWithGoogle,
-} from "../../redux/User/user.actions";
+import { signInUser, signInWithGoogle } from "../../redux/User/user.actions";
 import { Link, withRouter } from "react-router-dom";
 import AuthWrapper from "../AuthWrapper";
 import Button from "../Form/Button";
