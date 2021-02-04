@@ -23,6 +23,7 @@ import Admin from "./pages/Admin";
 import AdminToolbar from "./components/AdminToolbar";
 import AdminLayout from "./layouts/AdminLayout";
 import DashBoardLayout from "./layouts/DashboardLayout";
+import Search from "./pages/Search";
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -42,6 +43,23 @@ const App = (props) => {
             <HomepageLayout>
               <Homepage />
             </HomepageLayout>
+          )}
+        />
+        <Route
+          exact
+          path="/search"
+          render={() => (
+            <MainLayout>
+              <Search />
+            </MainLayout>
+          )}
+        />
+        <Route
+          path="/search/:filterType"
+          render={() => (
+            <MainLayout>
+              <Search />
+            </MainLayout>
           )}
         />
 
