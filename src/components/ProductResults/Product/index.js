@@ -29,7 +29,7 @@ const Product = (product) => {
   return (
     <div className="product">
       <div className="thumb">
-        <Link to={`/product/${documentID}`}>
+        <Link to={`/products/${documentID}`}>
           <img src={productThumbnail} alt={productName} />
         </Link>
       </div>
@@ -38,7 +38,7 @@ const Product = (product) => {
         <ul>
           <li>
             <span className="name">
-              <Link to={`/product/${documentID}`}>{productName}</Link>
+              <Link to={`/products/${documentID}`}>{productName}</Link>
             </span>
           </li>
           <li>
