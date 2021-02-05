@@ -4,12 +4,14 @@ import "./styles.scss";
 import Logo from "./../../assets/logo.png";
 import { useDispatch, useSelector } from "react-redux";
 import { signOutUserStart } from "../../redux/User/user.actions";
+import { selectCartItemsCount } from "./../../redux/Cart/cart.selectors";
 
-const mapState = ({ user }) => ({
-  currentUser: user.currentUser,
+const mapState = (state) => ({
+  currentUser: state.user.currentUser,
+  cartItemsNumber: selectCartItemsCount(state),
 });
 const Header = (props) => {
-  const { currentUser } = useSelector(mapState);
+  const { currentUser, cartItemsNumber } = useSelector(mapState);
   const dispatch = useDispatch();
 
   const signOut = () => {
@@ -35,26 +37,28 @@ const Header = (props) => {
           </ul>
         </nav>
         <div className="callToActions">
-          {currentUser && (
-            <ul>
+          <ul>
+            <li>
+              <Link>Your Cart ({cartItemsNumber})</Link>
+            </li>
+            {currentUser && [
               <li>
                 <Link to="/dashboard">My Account</Link>
-              </li>
+              </li>,
+
               <li>
                 <Link onClick={() => signOut()}>Log Out</Link>
-              </li>
-            </ul>
-          )}
-          {!currentUser && (
-            <ul>
+              </li>,
+            ]}
+            {!currentUser && [
               <li>
                 <Link to="/registeration">Register</Link>
-              </li>
+              </li>,
               <li>
                 <Link to="/login">Login</Link>
-              </li>
-            </ul>
-          )}
+              </li>,
+            ]}
+          </ul>
         </div>
       </div>
     </header>
