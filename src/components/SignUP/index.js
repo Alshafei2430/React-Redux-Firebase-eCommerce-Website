@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { signuUpUserStart } from "../../redux/User/user.actions";
+import { signUpUserStart } from "../../redux/User/user.actions";
 import AuthWrapper from "../AuthWrapper";
 import Button from "../Form/Button";
 import FormInput from "../Form/FormInput";
@@ -45,7 +45,7 @@ const Signup = (props) => {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     dispatch(
-      signuUpUserStart({ email, password, confirmPassword, displayName })
+      signUpUserStart({ email, password, confirmPassword, displayName })
     );
   };
 

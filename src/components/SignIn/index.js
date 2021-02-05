@@ -12,13 +12,14 @@ import "./styles.scss";
 
 const mapState = ({ user }) => ({
   currentUser: user.currentUser,
+  userErr: user.userErr,
 });
 
 const SignIn = (props) => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const { currentUser } = useSelector(mapState);
+  const { currentUser, userErr } = useSelector(mapState);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
@@ -34,12 +35,17 @@ const SignIn = (props) => {
     }
   }, [currentUser]);
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    if (Array.isArray(userErr) && userErr.length > 0) setErrors(userErr);
+  }, [userErr]);
+
+  const handleEmailSignInSubmit = (e) => {
     e.preventDefault();
     dispatch(emailSignInStart({ email, password }));
   };
 
-  const handleGoogleSignIn = () => {
+  const handleGoogleSignIn = (e) => {
+    e.preventDefault();
     dispatch(googleSignInStart());
   };
 
@@ -56,7 +62,7 @@ const SignIn = (props) => {
             })}
           </ul>
         )}
-        <form onSubmit={handleSubmit}>
+        <form>
           <FormInput
             type="email"
             name="email"
@@ -71,7 +77,7 @@ const SignIn = (props) => {
             placeholder="Password"
             handleChange={(e) => setPassword(e.target.value)}
           />
-          <Button type="submit">Log In</Button>
+          <Button onClick={handleEmailSignInSubmit}>Log In</Button>
 
           <div className="socialSignIn">
             <div className="row">

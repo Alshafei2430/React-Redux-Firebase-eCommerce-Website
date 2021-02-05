@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const mapState = ({ user }) => ({
@@ -6,11 +7,12 @@ const mapState = ({ user }) => ({
 });
 
 const useAuth = (props) => {
+  const history = useHistory();
   const { currentUser } = useSelector(mapState);
 
   useEffect(() => {
     if (!currentUser) {
-      props.history.push("/login");
+      history.push("/login");
     }
   }, [currentUser]);
 

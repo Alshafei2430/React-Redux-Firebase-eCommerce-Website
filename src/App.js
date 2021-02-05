@@ -5,6 +5,7 @@ import { checkUserSession } from "./redux/User/user.actions";
 
 // hoc
 import WithAuth from "./hoc/withAuth";
+import WithAdminAuth from "./hoc/withAdminAuth";
 
 //layouts
 import MainLayout from "./layouts/MainLayout";
@@ -18,6 +19,12 @@ import Recovery from "./pages/Recovery";
 import Dashboard from "./pages/Dashboard";
 
 import "./default.scss";
+import Admin from "./pages/Admin";
+import AdminToolbar from "./components/AdminToolbar";
+import AdminLayout from "./layouts/AdminLayout";
+import DashBoardLayout from "./layouts/DashboardLayout";
+import Search from "./pages/Search";
+import ProductDetails from "./pages/ProductDetails";
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -28,6 +35,7 @@ const App = (props) => {
 
   return (
     <div className="App">
+      <AdminToolbar />
       <Switch>
         <Route
           exact
@@ -36,6 +44,31 @@ const App = (props) => {
             <HomepageLayout>
               <Homepage />
             </HomepageLayout>
+          )}
+        />
+        <Route
+          exact
+          path="/search"
+          render={() => (
+            <MainLayout>
+              <Search />
+            </MainLayout>
+          )}
+        />
+        <Route
+          path="/search/:filterType"
+          render={() => (
+            <MainLayout>
+              <Search />
+            </MainLayout>
+          )}
+        />
+        <Route
+          path="/products/:productID"
+          render={() => (
+            <MainLayout>
+              <ProductDetails />
+            </MainLayout>
           )}
         />
 
@@ -67,10 +100,20 @@ const App = (props) => {
           path="/dashboard"
           render={() => (
             <WithAuth>
-              <MainLayout>
+              <DashBoardLayout>
                 <Dashboard />
-              </MainLayout>
+              </DashBoardLayout>
             </WithAuth>
+          )}
+        />
+        <Route
+          path="/admin"
+          render={() => (
+            <WithAdminAuth>
+              <AdminLayout>
+                <Admin />
+              </AdminLayout>
+            </WithAdminAuth>
           )}
         />
       </Switch>
