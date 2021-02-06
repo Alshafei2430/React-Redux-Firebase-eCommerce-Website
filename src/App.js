@@ -10,6 +10,8 @@ import WithAdminAuth from "./hoc/withAdminAuth";
 //layouts
 import MainLayout from "./layouts/MainLayout";
 import HomepageLayout from "./layouts/HomepageLayout";
+import AdminLayout from "./layouts/AdminLayout";
+import DashBoardLayout from "./layouts/DashboardLayout";
 
 //pages
 import Homepage from "./pages/Homepage";
@@ -17,14 +19,16 @@ import Registeration from "./pages/Registeration";
 import Login from "./pages/Login";
 import Recovery from "./pages/Recovery";
 import Dashboard from "./pages/Dashboard";
-
-import "./default.scss";
-import Admin from "./pages/Admin";
-import AdminToolbar from "./components/AdminToolbar";
-import AdminLayout from "./layouts/AdminLayout";
-import DashBoardLayout from "./layouts/DashboardLayout";
 import Search from "./pages/Search";
 import ProductDetails from "./pages/ProductDetails";
+import Admin from "./pages/Admin";
+import Cart from "./pages/Cart";
+
+//components
+import AdminToolbar from "./components/AdminToolbar";
+
+//styling
+import "./default.scss";
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -68,6 +72,14 @@ const App = (props) => {
           render={() => (
             <MainLayout>
               <ProductDetails />
+            </MainLayout>
+          )}
+        />
+        <Route
+          path="/cart"
+          render={() => (
+            <MainLayout>
+              <Cart />
             </MainLayout>
           )}
         />
