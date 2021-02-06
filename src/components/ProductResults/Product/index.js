@@ -23,7 +23,7 @@ const Product = (product) => {
   const handleAddToCart = (product) => {
     if (!product) return;
     dispatch(addProduct(product));
-    history.push("/cart");
+    // history.push("/cart");
   };
 
   return (
