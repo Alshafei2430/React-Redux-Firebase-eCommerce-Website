@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
-import { fetchProductsStart } from "./../../redux/Products/products.actions";
+import {
+  fetchProductsStart,
+  setProducts,
+} from "./../../redux/Products/products.actions";
 import Product from "./Product";
 import FormSelect from "./../Form/FormSelect";
 import LoadMore from "./../LoadMore";
@@ -23,6 +26,11 @@ const ProductResults = ({}) => {
     dispatch(fetchProductsStart({ filterType }));
   }, [filterType]);
 
+  useEffect(() => {
+    return () => {
+      dispatch(setProducts([]));
+    };
+  }, []);
   const handleFilter = (e) => {
     const nextFilter = e.target.value;
     history.push(`/search/${nextFilter}`);

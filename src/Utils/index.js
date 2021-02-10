@@ -9,5 +9,5 @@ export const checkUserIsAdmin = (currentUser) => {
 };
 
 export const apiInstance = axios.create({
-  baseURL: "http://localhost:5050/",
+  baseURL: "https://ecommercewebsiteapi.herokuapp.com/",
 });
