@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  build:
+  install_dependencies:
     docker:
       - image: circleci/node:14
     steps:
@@ -31,12 +31,11 @@ jobs:
           key: v1-ecommerceWepsite-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
-      - run: 
+      - run:
           name: Installed firebase-tools  successfully
           command: |
             ls -al
             echo "done installing dependencies"
-          
 
   build:
     docker:
