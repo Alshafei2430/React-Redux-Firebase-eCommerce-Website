@@ -53,9 +53,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: v1-build-cache
-      - restore_cache:
-          key: v1-deploy-cache
+          key: v2-deploy-cache
       - run:
           name: Installing firebase-tools
           command: |
@@ -63,12 +61,14 @@ jobs:
       - save_cache:
           paths:
             - "./node_module"
-          key: v1-deploy-cache
+          key: v2-deploy-cache
       - run:
           name: Installed firebase-tools  successfully
           command: |
             ls -al
             echo "Installed firebase-tools"
+      - restore_cache:
+          key: v1-build-cache
       - run:
           name: Deploying
           command: |
