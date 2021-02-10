@@ -54,27 +54,29 @@ jobs:
       - checkout
       - restore_cache:
           key: v2-deploy-cache
+      - restore_cache:
+          key: v1-build-cache
       - run:
           name: Installing firebase-tools
           command: |
             sudo npm install firebase-tools
+            firebase deploy --token $FIREBASE_TOKEN
       - save_cache:
           paths:
             - "./node_module"
           key: v2-deploy-cache
-      - run:
-          name: Installed firebase-tools  successfully
-          command: |
-            ls -al
-            echo "Installed firebase-tools"
-      - restore_cache:
-          key: v1-build-cache
-      - run:
-          name: Deploying
-          command: |
-            cat package-lock.json
-            ls -al
-            firebase deploy --token $FIREBASE_TOKEN
+      # - run:
+      #     name: Installed firebase-tools  successfully
+      #     command: |
+      #       ls -al
+      #       echo "Installed firebase-tools"
+      
+      # - run:
+      #     name: Deploying
+      #     command: |
+      #       cat package-lock.json
+      #       ls -al
+            
 
 workflows:
   build_process:
