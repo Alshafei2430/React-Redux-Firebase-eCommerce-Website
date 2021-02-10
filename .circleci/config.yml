@@ -7,9 +7,9 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: 
-            -v3-ecommerceWepsite-{{ checksum "package-lock.json" }}
-            -v3-ecommerceWepsite-
+          keys: 
+            - v3-ecommerceWepsite-{{ checksum "package-lock.json" }}
+            - v3-ecommerceWepsite-
       - run:
           name: Update npm
           command: |
@@ -34,9 +34,9 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: 
-            -v3-ecommerceWepsite-{{ checksum "package-lock.json" }}
-            -v3-ecommerceWepsite-
+          keys: 
+            - v3-ecommerceWepsite-{{ checksum "package-lock.json" }}
+            - v3-ecommerceWepsite-
       - run:
           name: Running build
           command: |
