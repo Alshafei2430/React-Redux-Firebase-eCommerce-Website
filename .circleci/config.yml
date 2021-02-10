@@ -7,17 +7,17 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: v2-ecommerceWepsite-{{ checksum "package-lock.json" }}
+          key: v3-ecommerceWepsite-{{ checksum "package-lock.json" }}
       - run:
           name: Update npm
           command: |
-            sudo npm i -g npm
+            sudo npm i npm
       - run:
           name: Installing npm dependencies
           command: |
             sudo npm install
       - save_cache:
-          key: v2-ecommerceWepsite-{{ checksum "package-lock.json" }}
+          key: v3-ecommerceWepsite-{{ checksum "package-lock.json" }}
           paths:
             - "./node_modules"
       - run:
@@ -32,7 +32,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: v2-ecommerceWepsite-{{ checksum "package-lock.json" }}
+          key: v3-ecommerceWepsite-{{ checksum "package-lock.json" }}
       - run:
           name: Running build
           command: |
@@ -51,7 +51,7 @@ jobs:
       - run:
           name: Installing firebase-tools
           command: |
-            sudo npm install -g firebase-tools
+            sudo npm install firebase-tools
       - run:
           name: Installed firebase-tools  successfully
           command: |
