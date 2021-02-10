@@ -24,6 +24,7 @@ import ProductDetails from "./pages/ProductDetails";
 import Admin from "./pages/Admin";
 import Cart from "./pages/Cart";
 import Payment from "./pages/Payment";
+import Order from "./pages/Order";
 
 //components
 import AdminToolbar from "./components/AdminToolbar";
@@ -89,7 +90,7 @@ const App = (props) => {
           render={() => (
             <WithAuth>
               <MainLayout>
-                <Payment></Payment>
+                <Payment />
               </MainLayout>
             </WithAuth>
           )}
@@ -129,6 +130,17 @@ const App = (props) => {
             </WithAuth>
           )}
         />
+        <Route
+          path="/order/:orderID"
+          render={() => (
+            <WithAuth>
+              <DashBoardLayout>
+                <Order />
+              </DashBoardLayout>
+            </WithAuth>
+          )}
+        />
+
         <Route
           path="/admin"
           render={() => (
