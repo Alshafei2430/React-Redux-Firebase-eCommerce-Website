@@ -14,28 +14,15 @@ jobs:
           name: Installing npm dependencies
           command: |
             sudo npm install -g
-      - run:
-          name: Installed npm dependencies successfully
-          command: |
-            echo "Installed npm dependencies"
-      - run:
-          name: Installing firebase-tools
-          command: |
-            sudo npm install -g firebase-tools
-      - run:
-          name: Installed firebase-tools  successfully
-          command: |
-            ls -al
-            echo "Installed firebase-tools"
       - save_cache:
           key: v1-ecommerceWepsite-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
       - run:
-          name: Installed firebase-tools  successfully
+          name: Installed npm dependencies successfully
           command: |
             ls -al
-            echo "done installing dependencies"
+            echo "Installed npm dependencies"
 
   build:
     docker:
@@ -49,12 +36,25 @@ jobs:
           command: |
             ls -al
             sudo npm run build
+      - save_cache:
+          key: v1-build-casche
+          path:
+            - /.build
 
   deploy:
     docker:
       - image: circleci/node:14
     steps:
       - checkout
+      - run:
+          name: Installing firebase-tools
+          command: |
+            sudo npm install -g firebase-tools
+      - run:
+          name: Installed firebase-tools  successfully
+          command: |
+            ls -al
+            echo "Installed firebase-tools"
       - run:
           name: Deploying
           command: |
