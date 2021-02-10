@@ -72,6 +72,7 @@ jobs:
       - run:
           name: Deploying
           command: |
+            cat package-lock.json
             ls -al
             firebase deploy --token $FIREBASE_TOKEN
 
