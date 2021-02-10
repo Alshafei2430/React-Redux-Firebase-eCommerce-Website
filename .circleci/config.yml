@@ -45,7 +45,7 @@ jobs:
       - save_cache:
           key: v1-build-cache
           paths:
-            - "./.build"
+            - "./build"
 
   deploy:
     docker:
