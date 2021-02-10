@@ -23,6 +23,7 @@ import Search from "./pages/Search";
 import ProductDetails from "./pages/ProductDetails";
 import Admin from "./pages/Admin";
 import Cart from "./pages/Cart";
+import Payment from "./pages/Payment";
 
 //components
 import AdminToolbar from "./components/AdminToolbar";
@@ -83,6 +84,16 @@ const App = (props) => {
             </MainLayout>
           )}
         />
+        <Route
+          path="/payment"
+          render={() => (
+            <WithAuth>
+              <MainLayout>
+                <Payment></Payment>
+              </MainLayout>
+            </WithAuth>
+          )}
+        ></Route>
 
         <Route
           path="/registeration"
