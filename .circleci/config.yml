@@ -1,0 +1,51 @@
+version: 2.1
+
+jobs:
+  install_dependencies:
+    docker:
+      - image: circleci/node:14
+    steps:
+      - checkout
+      - run:
+          name: Installing npm dependencies
+          command: |
+            sudo npm install -g
+      - run:
+          name: Installed npm dependencies successfully
+          command: |
+            echo "Installed npm dependencies"
+      - run:
+          name: Installing firebase-tools
+          command: |
+            sudo npm install -g firebase-tools
+      - run:
+          name: Installed firebase-tools  successfully
+          command: |
+            echo "Installed firebase-tools"
+
+  build:
+    docker:
+      - image: circleci/node:14
+    steps:
+      - checkout
+      - run:
+          name: Running build
+          command: |
+            sudo npm run build
+
+  deploy:
+    docker:
+      - image: circleci/node:14
+    steps:
+      - checkout
+      - run:
+          name: Deploying
+          command: |
+            firebase deploy --token $FIREBASE_TOKEN
+
+workflows:
+  build_process:
+    jobs:
+      - install_dependencies
+      - build
+      - deploy
