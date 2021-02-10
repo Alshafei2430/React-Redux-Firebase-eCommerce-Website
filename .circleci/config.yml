@@ -33,6 +33,10 @@ jobs:
       - checkout
       - restore_cache:
           key: v2-ecommerceWepsite-{{ checksum "package-lock.json" }}
+      - save_cache:
+          key: v2-ecommerceWepsite-{{ checksum "package-lock.json" }}
+          paths:
+            - "./node_modules"
       - run:
           name: Running build
           command: |
