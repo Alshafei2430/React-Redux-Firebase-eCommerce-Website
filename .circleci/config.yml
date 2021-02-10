@@ -37,13 +37,15 @@ jobs:
           keys: 
             - v3-ecommerceWepsite-{{ checksum "package-lock.json" }}
             - v3-ecommerceWepsite-
+      - restore_cache:
+          key: v2-build-cache
       - run:
           name: Running build
           command: |
             ls -al
             sudo npm run build
       - save_cache:
-          key: v1-build-cache
+          key: v2-build-cache
           paths:
             - "./build"
 
@@ -55,7 +57,7 @@ jobs:
       - restore_cache:
           key: v3-deploy-cache
       - restore_cache:
-          key: v1-build-cache
+          key: v2-build-cache
       - run:
           name: Installing firebase-tools
           command: |
