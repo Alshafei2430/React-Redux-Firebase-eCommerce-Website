@@ -51,4 +51,8 @@ workflows:
     jobs:
       - install_dependencies
       - build
+          requires:
+            - install_dependencies
       - deploy
+          requires:
+            - build
