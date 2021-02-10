@@ -21,6 +21,7 @@ jobs:
       - run:
           name: Installed firebase-tools  successfully
           command: |
+            ls -al
             echo "Installed firebase-tools"
 
   build:
@@ -31,6 +32,7 @@ jobs:
       - run:
           name: Running build
           command: |
+            ls -al
             sudo npm run build
 
   deploy:
@@ -41,6 +43,7 @@ jobs:
       - run:
           name: Deploying
           command: |
+            ls -al
             firebase deploy --token $FIREBASE_TOKEN
 
 workflows:
