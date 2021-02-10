@@ -1,6 +1,13 @@
-export const checkUserIsAdmin = (curretUser) => {
-  if (!curretUser || !Array.isArray(curretUser.userRoles)) return;
-  const { userRoles } = curretUser;
+import axios from "axios";
+
+export const checkUserIsAdmin = (currentUser) => {
+  if (!currentUser || !Array.isArray(currentUser.userRoles)) return false;
+  const { userRoles } = currentUser;
   if (userRoles.includes("admin")) return true;
+
   return false;
 };
+
+export const apiInstance = axios.create({
+  baseURL: "http://localhost:5050/",
+});
