@@ -21,7 +21,7 @@ jobs:
       - run:
           name: Installed npm dependencies successfully
           command: |
-            ls -al
+            ls -al ..
             echo "Installed npm dependencies"
 
   build:
