@@ -50,9 +50,9 @@ workflows:
   build_process:
     jobs:
       - install_dependencies
-      - build
+      - build:
           requires:
             - install_dependencies
-      - deploy
+      - deploy:
           requires:
             - build
